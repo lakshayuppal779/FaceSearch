@@ -1,17 +1,18 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
+import 'package:facesearch/Animation/loading.dart';
 import 'package:facesearch/Random_image_generator/screens/dummyAPI/lorem_picsum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import '../../constant/constant.dart';
 import '../../logic/logic.dart';
 import '../../widgets/general_button/general_button.dart';
 import '../../widgets/select_image_card/select_image_card.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -21,6 +22,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  bool _changetheme=false;
   var data = Get.put(Logic());
   final Shader linearGradient = const LinearGradient(
     colors: <Color>[themeColor1, themeColor2],
@@ -58,19 +60,10 @@ class _MainScreenState extends State<MainScreen> {
           data.fileList.clear();
           data.widgetList.clear();
           setState(() {});
-          Fluttertoast.showToast(
-              msg: "Image uploaded successfully",
-              backgroundColor: themeColor2.withOpacity(0.8),
-              gravity: ToastGravity.SNACKBAR
-          ).then((value) {
-            Future.delayed(const Duration(milliseconds: 1500), () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => dummyAPIScreen()),
-              );
-            });
-          });
-
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const Loading()),
+          );
         } else {
           handleError(responseData['error']['message']);
         }
@@ -139,36 +132,63 @@ class _MainScreenState extends State<MainScreen> {
     super.initState();
   }
 
+  void updateSystemUIOverlayStyle(bool isDarkTheme) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: isDarkTheme ? Colors.black : Colors.white, // Adjust status bar color
+      systemNavigationBarColor: isDarkTheme ? Colors.black : Colors.white, // Adjust navigation bar color
+      statusBarIconBrightness: isDarkTheme ? Brightness.light : Brightness.dark, // Adjust status bar icons
+      systemNavigationBarIconBrightness: isDarkTheme ? Brightness.light : Brightness.dark, // Adjust navigation bar icons
+    ));
+  }
+
   @override
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.white,
           centerTitle: true,
           title: Text(
             "Face Search",
             style: TextStyle(foreground: Paint()..shader =  linearGradient),
           ),
+          actions: [
+            IconButton(onPressed: (){
+              if(_changetheme){
+                Get.changeTheme(ThemeData.light());
+                updateSystemUIOverlayStyle(false);
+              }
+              else{
+                Get.changeTheme(ThemeData.dark());
+                updateSystemUIOverlayStyle(true);
+              }
+              setState(() {
+                _changetheme=!_changetheme;
+              });
+            },
+                icon:_changetheme?Icon(Icons.light_mode,color: Colors.yellow,):Icon(Icons.dark_mode)),
+          ],
         ),
-        bottomNavigationBar: GeneralButton(
-          label: "Upload",
-          width: width,
-          onTap: () {
-            if (data.fileList.isNotEmpty) {
-              uploadImages(context);
-            }
-            else {
-              // Show a message if no images are selected
-              Fluttertoast.showToast(
-                  msg: "No image selected.",
-                  backgroundColor: themeColor2.withOpacity(0.8),
-                  gravity: ToastGravity.SNACKBAR
-              );
-            }
-          },
+        bottomNavigationBar: Padding(
+          padding: const EdgeInsets.all(6.0),
+          child: GeneralButton(
+            label: "Upload",
+            width: width,
+            onTap: () {
+              if (data.fileList.isNotEmpty) {
+                uploadImages(context);
+              }
+              else {
+                // Show a message if no images are selected
+                Fluttertoast.showToast(
+                    msg: "No image selected.",
+                    backgroundColor: themeColor2.withOpacity(0.8),
+                    gravity: ToastGravity.SNACKBAR
+                );
+              }
+            },
 
+          ),
         ),
         body: GetBuilder<Logic>(
             init: Logic(),
