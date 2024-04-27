@@ -39,3 +39,23 @@ The FaceSearch app is a Flutter-based mobile application designed to enhance use
 ## Conclusion
 
 The FaceSearch app combines Flutter's capabilities with best practices in UI design, network communication, and error management. It not only functions as a powerful tool but also serves as an excellent portfolio project to demonstrate the ability to create robust, real-world applications suitable for showcasing to potential employers or recruiters.
+
+
+
+
+
+
+https://github.com/lakshayuppal779/FaceSearch/assets/117820155/3becc959-776e-49db-81dc-9b2077ac8a48
+
+
+
+
+
+
+
+
+
+
+
+
+
