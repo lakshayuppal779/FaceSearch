@@ -1,8 +1,8 @@
-# FaceSearch App
+# Random Image generator App
 
 ## Overview
 
-The FaceSearch app is a Flutter-based mobile application designed to enhance user engagement by allowing them to upload images and dynamically view a sequence of images fetched from a backend service. This app showcases advanced functionalities such as image uploading, API integration, and timed image transitions.
+This app is a Flutter-based mobile application designed to enhance user engagement by allowing them to upload images and dynamically view a sequence of images fetched from a backend service. This app showcases advanced functionalities such as image uploading, API integration, and timed image transitions.
 
 ## Key Functionalities
 
@@ -38,7 +38,7 @@ The FaceSearch app is a Flutter-based mobile application designed to enhance use
 
 ## Conclusion
 
-The FaceSearch app combines Flutter's capabilities with best practices in UI design, network communication, and error management. It not only functions as a powerful tool but also serves as an excellent portfolio project to demonstrate the ability to create robust, real-world applications suitable for showcasing to potential employers or recruiters.
+This app combines Flutter's capabilities with best practices in UI design, network communication, and error management. It not only functions as a powerful tool but also serves as an excellent portfolio project to demonstrate the ability to create robust, real-world applications suitable for showcasing to potential employers or recruiters.
 
 
 
